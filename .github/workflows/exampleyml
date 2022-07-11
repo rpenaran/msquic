@@ -1,0 +1,24 @@
+# This is a basic workflow to help you get started with Actions
+
+name: PR_actions
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  issue_comment:
+    types: [created]
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  pr_commented:
+    # This job only runs for pull request comments
+    name: PR comment
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: [self-hosted]
+    steps:
+      - run: |
+          echo "A comment on PR: $BODY"
+        env:
+          BODY: ${{ github.event.comment.body }}
