@@ -32,3 +32,25 @@ jobs:
     if: ${{ needs.pr_commented.outputs.output1 == '@run_regress' }}
     steps:
       - run: echo Runing the best regressions ever
+      - name: add like
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const {owner, repo} = context.issue
+            github.reactions.createForIssueComment({
+              owner,
+              repo,
+              comment_id: context.payload.comment.id,
+              content: "+1",
+            });
+      - name: add rocket
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const {owner, repo} = context.issue
+            github.reactions.createForIssueComment({
+              owner,
+              repo,
+              comment_id: context.payload.comment.id,
+              content: "rocket",
+            });
