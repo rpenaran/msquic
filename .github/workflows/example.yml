@@ -17,8 +17,18 @@ jobs:
     name: PR comment
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ github.event.comment.body }}
     steps:
       - run: |
           echo "A comment on PR: $BODY"
         env:
           BODY: ${{ github.event.comment.body }}
+          
+  run_regress:
+    name: run regress
+    needs: pr_commented
+    runs-on: ubuntu-latest
+    if: ${{ needs.pr_commented.outputs.output1 == '@run_regress' }}
+    steps:
+      - run: echo Runing the best regressions ever
