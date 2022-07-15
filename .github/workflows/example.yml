@@ -19,6 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       output1: ${{ github.event.comment.body }}
+    steps:
+      - run: |
+          echo "A comment on PR: $BODY"
+        env:
+          BODY: ${{ github.event.comment.body }}
           
   run_regress:
     name: run regress
@@ -27,17 +32,6 @@ jobs:
     if: ${{ needs.pr_commented.outputs.output1 == '!run_regressions' }}
     steps:
       - run: echo Runing the best regressions ever
-      - name: add like
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const {owner, repo} = context.issue
-            github.reactions.createForIssueComment({
-              owner,
-              repo,
-              comment_id: context.payload.comment.id,
-              content: "+1",
-            });
       - name: add rocket
         uses: actions/github-script@v4
         with:
