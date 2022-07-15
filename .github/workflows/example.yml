@@ -27,9 +27,8 @@ jobs:
           
   run_regress:
     name: run regress
-    needs: pr_commented
     runs-on: ubuntu-latest
-    if: ${{ ngithub.event.issue.pull_request && github.event.comment.body == '!run_regressions' }}
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '!run_regressions' }}
     steps:
       - run: echo Runing the best regressions ever
       - name: add rocket
